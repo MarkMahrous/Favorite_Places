@@ -38,7 +38,7 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen> {
             ),
             child: ListTile(
               title: Text(
-                favoritePlaces[index].name,
+                favoritePlaces[index].title,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
