@@ -14,11 +14,33 @@ class PlaceDetailScreen extends StatelessWidget {
         title: Text(place.title),
       ),
       body: Center(
-        child: Text(
-          place.title,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                place.title,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
               ),
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+                height: 250,
+                width: double.infinity,
+                child: Image.file(
+                  place.image,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
