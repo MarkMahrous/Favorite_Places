@@ -17,8 +17,11 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen> {
   Widget build(BuildContext context) {
     List<Place> favoritePlaces = ref.watch(favoritePlacesProvider);
 
-    Widget content = const Center(
-      child: Text('No places yet!'),
+    Widget content = Center(
+      child: Text('No places yet!',
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              )),
     );
 
     if (favoritePlaces.isNotEmpty) {
@@ -34,7 +37,12 @@ class _PlacesScreenState extends ConsumerState<PlacesScreen> {
               ),
             ),
             child: ListTile(
-              title: Text(favoritePlaces[index].name),
+              title: Text(
+                favoritePlaces[index].name,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+              ),
             ),
           );
         },
