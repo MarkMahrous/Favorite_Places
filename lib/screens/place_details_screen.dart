@@ -1,8 +1,9 @@
-import 'package:favorite_places/models/place.dart';
 import 'package:flutter/material.dart';
 
-class PlaceDetailsScreen extends StatelessWidget {
-  const PlaceDetailsScreen({super.key, required this.place});
+import 'package:favorite_places/models/place.dart';
+
+class PlaceDetailScreen extends StatelessWidget {
+  const PlaceDetailScreen({super.key, required this.place});
 
   final Place place;
 
@@ -15,10 +16,9 @@ class PlaceDetailsScreen extends StatelessWidget {
       body: Center(
         child: Text(
           place.title,
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge!
-              .copyWith(color: Theme.of(context).colorScheme.onSurface),
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
         ),
       ),
     );

@@ -1,71 +1,36 @@
-import 'package:favorite_places/models/place.dart';
-import 'package:favorite_places/providers/favorite_places_provider.dart';
-import 'package:favorite_places/screens/add_place_screen.dart';
-import 'package:favorite_places/screens/place_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PlacesScreen extends ConsumerStatefulWidget {
+import 'package:favorite_places/screens/add_place_screen.dart';
+import 'package:favorite_places/widgets/places_list.dart';
+import 'package:favorite_places/providers/user_places.dart';
+
+class PlacesScreen extends ConsumerWidget {
   const PlacesScreen({super.key});
 
   @override
-  ConsumerState<PlacesScreen> createState() => _PlacesScreenState();
-}
-
-class _PlacesScreenState extends ConsumerState<PlacesScreen> {
-  @override
-  Widget build(BuildContext context) {
-    List<Place> favoritePlaces = ref.watch(favoritePlacesProvider);
-
-    Widget content = Center(
-      child: Text('No places yet!',
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-              )),
-    );
-
-    if (favoritePlaces.isNotEmpty) {
-      content = ListView.builder(
-        itemCount: favoritePlaces.length,
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => PlaceDetailsScreen(
-                  place: favoritePlaces[index],
-                ),
-              ),
-            ),
-            child: ListTile(
-              title: Text(
-                favoritePlaces[index].title,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-              ),
-            ),
-          );
-        },
-      );
-    }
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userPlaces = ref.watch(userPlacesProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favorite Places'),
+        title: const Text('Your Places'),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => AddPlaceScreen(),
+                  builder: (ctx) => const AddPlaceScreen(),
                 ),
               );
             },
           ),
         ],
       ),
-      body: content,
+      body: PlacesList(
+        places: userPlaces,
+      ),
     );
   }
 }
