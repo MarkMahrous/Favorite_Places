@@ -25,7 +25,9 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
   void _savePlace() {
     final enteredTitle = _titleController.text;
 
-    if (enteredTitle.isEmpty || _pickedImage == null) {
+    if (enteredTitle.isEmpty ||
+        _pickedImage == null ||
+        _pickedLocation == null) {
       return;
     }
 
