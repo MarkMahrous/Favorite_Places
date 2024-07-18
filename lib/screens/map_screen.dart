@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:favorite_places/models/place.dart';
@@ -41,24 +39,7 @@ class _MapScreenState extends State<MapScreen> {
                 if (_pickedLocation == null) {
                   return;
                 }
-
-                final lat = _pickedLocation!.latitude;
-                final lng = _pickedLocation!.longitude;
-
-                final url = Uri.parse(
-                    'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=Your Api Key');
-
-                final response = await http.get(url);
-                final resData = json.decode(response.body);
-                final address = resData['results'][0]['formatted_address'];
-
-                PlaceLocation newLocation = PlaceLocation(
-                  latitude: lat,
-                  longitude: lng,
-                  address: address,
-                );
-
-                Navigator.of(context).pop(newLocation);
+                Navigator.of(context).pop(_pickedLocation);
               },
             ),
         ],
@@ -70,25 +51,25 @@ class _MapScreenState extends State<MapScreen> {
           });
         },
         initialCameraPosition: CameraPosition(
-          target: _pickedLocation != null
-              ? _pickedLocation!
-              : LatLng(
-                  widget.location.latitude,
-                  widget.location.longitude,
-                ),
+          target: _pickedLocation ??
+              LatLng(
+                widget.location.latitude,
+                widget.location.longitude,
+              ),
           zoom: 16,
         ),
-        markers: {
-          Marker(
-            markerId: const MarkerId('m1'),
-            position: _pickedLocation != null
-                ? _pickedLocation!
-                : LatLng(
-                    widget.location.latitude,
-                    widget.location.longitude,
-                  ),
-          ),
-        },
+        markers: (_pickedLocation == null || !widget.isSelecting)
+            ? {}
+            : {
+                Marker(
+                  markerId: const MarkerId('m1'),
+                  position: _pickedLocation ??
+                      LatLng(
+                        widget.location.latitude,
+                        widget.location.longitude,
+                      ),
+                ),
+              },
       ),
     );
   }
