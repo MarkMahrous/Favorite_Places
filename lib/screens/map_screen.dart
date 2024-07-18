@@ -45,11 +45,13 @@ class _MapScreenState extends State<MapScreen> {
         ],
       ),
       body: GoogleMap(
-        onTap: (position) {
-          setState(() {
-            _pickedLocation = position;
-          });
-        },
+        onTap: !widget.isSelecting
+            ? null
+            : (position) {
+                setState(() {
+                  _pickedLocation = position;
+                });
+              },
         initialCameraPosition: CameraPosition(
           target: _pickedLocation ??
               LatLng(
@@ -58,18 +60,16 @@ class _MapScreenState extends State<MapScreen> {
               ),
           zoom: 16,
         ),
-        markers: (_pickedLocation == null || !widget.isSelecting)
-            ? {}
-            : {
-                Marker(
-                  markerId: const MarkerId('m1'),
-                  position: _pickedLocation ??
-                      LatLng(
-                        widget.location.latitude,
-                        widget.location.longitude,
-                      ),
+        markers: {
+          Marker(
+            markerId: const MarkerId('m1'),
+            position: _pickedLocation ??
+                LatLng(
+                  widget.location.latitude,
+                  widget.location.longitude,
                 ),
-              },
+          ),
+        },
       ),
     );
   }
