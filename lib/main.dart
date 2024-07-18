@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:favorite_places/screens/places_screen.dart';
 
@@ -27,12 +27,18 @@ final theme = ThemeData().copyWith(
   ),
 );
 
-Future main() async {
-  try {
-    await dotenv.load(fileName: 'lib/.env');
-  } catch (e) {
-    print('Error loading .env file: $e');
-  }
+// Future main() async {
+//   try {
+//     await dotenv.load(fileName: 'lib/.env');
+//   } catch (e) {
+//     print('Error loading .env file: $e');
+//   }
+//   runApp(
+//     const ProviderScope(child: MyApp()),
+//   );
+// }
+
+void main() {
   runApp(
     const ProviderScope(child: MyApp()),
   );
