@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:favorite_places/screens/map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
@@ -31,7 +32,7 @@ class _LocationInputState extends State<LocationInput> {
     // final String googleMapsApiKey = dotenv.env['GOOGLE_MAPS_API_KEY'] ?? '';
     // print(googleMapsApiKey);
 
-    return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$lat,$lng&key=';
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$lat,$lng&key=Your Api Key';
   }
 
   void _getCurrentLocation() async {
@@ -73,7 +74,7 @@ class _LocationInputState extends State<LocationInput> {
     // print(googleMapsApiKey);
 
     final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=');
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=Your Api Key');
 
     final response = await http.get(url);
     final resData = json.decode(response.body);
@@ -135,7 +136,24 @@ class _LocationInputState extends State<LocationInput> {
               icon: const Icon(Icons.location_on),
             ),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: () async {
+                PlaceLocation? location = await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => const MapScreen(isSelecting: true),
+                  ),
+                );
+
+                if (location == null) {
+                  return;
+                }
+
+                print(location!.latitude);
+
+                setState(() {
+                  _pickedLocation = location;
+                  widget.onPickLocation(_pickedLocation!);
+                });
+              },
               label: const Text("Select on Map"),
               icon: const Icon(Icons.map),
             ),

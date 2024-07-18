@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:favorite_places/models/place.dart';
@@ -22,6 +24,8 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  LatLng? _pickedLocation;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,27 +37,56 @@ class _MapScreenState extends State<MapScreen> {
           if (widget.isSelecting)
             IconButton(
               icon: const Icon(Icons.save),
-              onPressed: () {
-                Navigator.of(context).pop(widget.location);
+              onPressed: () async {
+                if (_pickedLocation == null) {
+                  return;
+                }
+
+                final lat = _pickedLocation!.latitude;
+                final lng = _pickedLocation!.longitude;
+
+                final url = Uri.parse(
+                    'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=Your Api Key');
+
+                final response = await http.get(url);
+                final resData = json.decode(response.body);
+                final address = resData['results'][0]['formatted_address'];
+
+                PlaceLocation newLocation = PlaceLocation(
+                  latitude: lat,
+                  longitude: lng,
+                  address: address,
+                );
+
+                Navigator.of(context).pop(newLocation);
               },
             ),
         ],
       ),
       body: GoogleMap(
+        onTap: (position) {
+          setState(() {
+            _pickedLocation = position;
+          });
+        },
         initialCameraPosition: CameraPosition(
-          target: LatLng(
-            widget.location.latitude,
-            widget.location.longitude,
-          ),
+          target: _pickedLocation != null
+              ? _pickedLocation!
+              : LatLng(
+                  widget.location.latitude,
+                  widget.location.longitude,
+                ),
           zoom: 16,
         ),
         markers: {
           Marker(
             markerId: const MarkerId('m1'),
-            position: LatLng(
-              widget.location.latitude,
-              widget.location.longitude,
-            ),
+            position: _pickedLocation != null
+                ? _pickedLocation!
+                : LatLng(
+                    widget.location.latitude,
+                    widget.location.longitude,
+                  ),
           ),
         },
       ),
