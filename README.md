@@ -18,8 +18,8 @@ A mobile application designed to help you keep track of your favorite places by 
 
 ### Technologies
 - [**Flutter**](https://flutter.dev/): A UI toolkit for building natively compiled applications for mobile, web, and desktop from a single codebase.
-- [**Dart**](https://dart.dev/): The programming language used by Flutter.
 - [**Google Maps API**](https://developers.google.com/maps): Google technology that helps you take the power of Google Maps and put it directly on your own site.
+- [**Dart**](https://dart.dev/): The programming language used by Flutter.
 - [**Visual Studio Code**](https://code.visualstudio.com/): A lightweight and powerful code editor with excellent support for various programming languages.
 
 ### Packages
