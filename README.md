@@ -11,8 +11,8 @@ A mobile application designed to help you keep track of your favorite places by 
 
 ## Features
 
-- View Favorite Places: Browse a comprehensive list of all your favorite places, complete with details such as title, picture, and location.
-- Add New Place: Easily add new places to your favorites by specifying a title, selecting a picture, and picking a location (either by using your current location or selecting on a map).
+- **View Favorite Places**: Browse a comprehensive list of all your favorite places, complete with details such as title, picture, and location.
+- **Add New Place**: Easily add new places to your favorites by specifying a title, selecting a picture, and picking a location (either by using your current location or selecting on a map).
   
 ## Technologies and Packages
 
